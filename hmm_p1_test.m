@@ -13,7 +13,7 @@ B=[ 0.1 0.2 0.7;
 P= [0.2 0.8];
 
 % do N trials to see how they compare
-N=1000;
+N=100;
 p=zeros(2,N);
 for n=(1:N)
     % Example sequence

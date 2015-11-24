@@ -13,8 +13,6 @@ a=zeros(N,length(O));
 a(:,1)=P(:).*(B(:,O(1))(:));
 T=length(O);
 for t=(2:T)
-    for j=(1:N)
-        a(j,t)=sum(a(:,t-1).*A(:,j))*B(j,O(t));
-    end
+    a(:,t)=(A.'*a(:,t-1)).*B(:,O(t));
 end
 p=sum(a(:,end));
