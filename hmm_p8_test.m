@@ -1,7 +1,7 @@
 % Given HMM and observation sequence, compute 
 % most probable state sequence and compare it with actual state sequence
 
-T=100000;
+T=10000;
 
 % Transition probabilities
 A=[ 0.75 0.25;
@@ -16,10 +16,10 @@ P= [0.2 0.8];
 [O,Q]=synth_from_hmm(A,B,P,T);
 
 % Most probable sequence
-[Q_,Y_,D_,p_]=viterbi_ns(O,A,B,P);
+[Q_,Y_,D_,l_p_]=viterbi(O,A,B,P);
 
 'log probability of proposed state sequence'
-log(p_)
+l_p_
 
 % Compute percentage error
 '% error'

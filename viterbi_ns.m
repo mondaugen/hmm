@@ -1,9 +1,9 @@
-function [Q,Y,D,l_p] = viterbi(O,A,B,P)
-% VITERBI
+function [Q,Y,D,p] = viterbi_ns(O,A,B,P)
+% VITERBI_NS
 %
 % Given observation sequence O and HMM parameters A, B, P, find the most likely
 % state sequence Q that generated O.
-% The log probability is computed to avoid numerical problems.
+% No scaling is performed and so this could be prone to numerical errors.
 
 % Length of observation vector
 T=length(O);
@@ -16,17 +16,13 @@ Y=zeros(N,T);
 % Path scores
 D=zeros(N,T);
 % Initialize
-l_A=log(A);
-l_B=log(B);
-l_P=log(P(:));
-D(:,1)=l_P+l_B(:,O(1));
+D(:,1)=P(:).*B(:,O(1));
 Y(:,1)=zeros(N,1);
 for t=(2:T)
-    [D(:,t),Y(:,t)]=max((D(:,t-1).+l_A).',[],2);
-    D(:,t).+=l_B(:,O(t));
+    [D(:,t),Y(:,t)]=max((D(:,t-1).*A).',[],2);
+    D(:,t).*=B(:,O(t));
 end
-[l_p,Q(T)]=max(D(:,T));
+[p,Q(T)]=max(D(:,T));
 for t=fliplr(1:(T-1))
     Q(t)=Y(Q(t+1),t+1);
 end
-
